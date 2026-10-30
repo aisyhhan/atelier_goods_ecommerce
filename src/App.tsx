@@ -7,7 +7,9 @@ import { ProductDetailModal } from './components/ProductDetailModal.tsx';
 import { CartDrawer } from './components/CartDrawer.tsx';
 import { OrderHistoryModal } from './components/OrderHistoryModal.tsx';
 import { WishlistModal } from './components/WishlistModal.tsx';
+import { LaravelFilesModal } from './components/LaravelFilesModal.tsx';
 import { Toast } from './components/Toast.tsx';
+import { Code2, Download } from 'lucide-react';
 
 const PRODUCTS_STORAGE_KEY = 'atelier_ecommerce_products_v3';
 const CART_STORAGE_KEY = 'atelier_ecommerce_cart_v3';
@@ -51,7 +53,7 @@ export default function App() {
     return [];
   });
 
-  // 4. Persistent Wishlist (Array of product IDs)
+  // 4. Persistent Wishlist
   const [wishlistIds, setWishlistIds] = useState<number[]>(() => {
     try {
       const saved = localStorage.getItem(WISHLIST_STORAGE_KEY);
@@ -67,6 +69,7 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const [isLaravelModalOpen, setIsLaravelModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Sync state to LocalStorage
@@ -181,7 +184,6 @@ export default function App() {
   };
 
   const totalCartCount = cart.reduce((acc, curr) => acc + curr.quantity, 0);
-
   const wishlistProducts = products.filter((p) => wishlistIds.includes(p.id));
 
   const scrollToCatalog = () => {
@@ -211,6 +213,7 @@ export default function App() {
         onOpenCart={() => setIsCartOpen(true)}
         onOpenOrders={() => setIsOrdersOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
+        onOpenLaravelModal={() => setIsLaravelModalOpen(true)}
         onScrollToCatalog={scrollToCatalog}
         onScrollToAbout={scrollToAbout}
       />
@@ -226,7 +229,7 @@ export default function App() {
         />
       </main>
 
-      {/* 3. Pure Retail Footer */}
+      {/* 3. Pure Retail Footer with Laravel Code Export Info */}
       <footer className="border-t border-neutral-200 bg-white mt-auto py-12">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 text-xs text-neutral-600 mb-8">
           
@@ -267,20 +270,22 @@ export default function App() {
             </ul>
           </div>
 
-          {/* Payment methods */}
+          {/* Laravel Framework Export */}
           <div className="space-y-2">
             <div className="font-semibold text-neutral-900 uppercase tracking-wider text-[11px]">
-              Metode Pembayaran
+              Source Code Laravel 11
             </div>
             <p className="text-neutral-500 text-[11px] leading-relaxed">
-              Mendukung transaksi aman melalui COD (Bayar di Tempat), QRIS (GoPay, OVO, ShopeePay), dan Transfer Bank.
+              Jalankan proyek ini di laptop Anda dengan Laravel (PHP, Blade &amp; Tailwind CSS).
             </p>
-            <div className="flex flex-wrap gap-1.5 pt-1 text-[10px] text-neutral-700 font-medium">
-              <span className="px-2 py-0.5 bg-neutral-100 rounded">COD</span>
-              <span className="px-2 py-0.5 bg-neutral-100 rounded">QRIS</span>
-              <span className="px-2 py-0.5 bg-neutral-100 rounded">BCA</span>
-              <span className="px-2 py-0.5 bg-neutral-100 rounded">Mandiri</span>
-              <span className="px-2 py-0.5 bg-neutral-100 rounded">BRI</span>
+            <div className="flex flex-col gap-2 pt-1">
+              <button
+                onClick={() => setIsLaravelModalOpen(true)}
+                className="px-3 py-1.5 text-xs font-semibold text-neutral-800 bg-neutral-100 hover:bg-neutral-200 rounded-lg transition-colors flex items-center justify-center gap-1.5 border border-neutral-300/80"
+              >
+                <Code2 className="w-3.5 h-3.5" />
+                <span>Lihat &amp; Unduh File Laravel</span>
+              </button>
             </div>
           </div>
 
@@ -290,8 +295,8 @@ export default function App() {
           <div>
             &copy; {new Date().getFullYear()} Atelier Goods. Hak Cipta Dilindungi.
           </div>
-          <div>
-            Kenyamanan &amp; Estetika untuk Ruang Anda
+          <div className="flex items-center gap-2">
+            <span>Framework: Laravel 11 (PHP) + Tailwind CSS</span>
           </div>
         </div>
       </footer>
@@ -329,7 +334,13 @@ export default function App() {
         onAddToCart={(p) => handleAddToCart(p, 1)}
       />
 
-      {/* 5. Toast Feedback */}
+      {/* 5. Laravel Project Files & Downloader Modal */}
+      <LaravelFilesModal
+        isOpen={isLaravelModalOpen}
+        onClose={() => setIsLaravelModalOpen(false)}
+      />
+
+      {/* 6. Toast Feedback */}
       <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
 
     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, PackageCheck, Heart, Sparkles } from 'lucide-react';
+import { ShoppingBag, PackageCheck, Heart, Sparkles, Download } from 'lucide-react';
 
 interface NavbarProps {
   cartCount: number;
@@ -8,6 +8,7 @@ interface NavbarProps {
   onOpenCart: () => void;
   onOpenOrders: () => void;
   onOpenWishlist: () => void;
+  onOpenLaravelModal: () => void;
   onScrollToCatalog: () => void;
   onScrollToAbout: () => void;
 }
@@ -19,15 +20,29 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenCart,
   onOpenOrders,
   onOpenWishlist,
+  onOpenLaravelModal,
   onScrollToCatalog,
   onScrollToAbout,
 }) => {
   return (
     <div className="sticky top-0 z-40 bg-white">
-      {/* 1. Top Minimal Promo Bar */}
-      <div className="bg-neutral-900 text-neutral-200 text-[11px] py-1.5 px-4 text-center tracking-wide font-medium flex items-center justify-center gap-2">
-        <Sparkles className="w-3 h-3 text-amber-300" />
-        <span>Gunakan kode <strong>DISKON10</strong> untuk potongan 10% &middot; Gratis Ongkir &gt; Rp300.000</span>
+      {/* 1. Top Promo Bar with Laravel Source Code Download Trigger */}
+      <div className="bg-neutral-900 text-neutral-200 text-[11px] py-1.5 px-4 tracking-wide font-medium flex items-center justify-between">
+        <div className="hidden sm:flex items-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+          <span>Gunakan kode <strong>DISKON10</strong> &middot; Gratis Ongkir &gt; Rp300.000</span>
+        </div>
+
+        <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-3">
+          <span className="sm:hidden text-[10px] text-neutral-300">Atelier E-Commerce</span>
+          <button
+            onClick={onOpenLaravelModal}
+            className="text-[11px] font-semibold text-white bg-neutral-800 hover:bg-neutral-700 px-2.5 py-0.5 rounded transition-colors flex items-center gap-1.5 border border-neutral-700"
+          >
+            <Download className="w-3 h-3 text-amber-300" />
+            <span>Unduh Code Laravel (.ZIP)</span>
+          </button>
+        </div>
       </div>
 
       {/* 2. Main Navigation Header */}
