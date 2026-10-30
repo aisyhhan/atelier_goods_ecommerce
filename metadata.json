@@ -1,0 +1,6 @@
+{
+  "name": "Atelier Goods - Minimalist E-Commerce",
+  "description": "Toko online e-commerce ringan berdesain minimalis menggunakan Tailwind CSS dengan katalog produk, keranjang belanja, dan sistem pemesanan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
